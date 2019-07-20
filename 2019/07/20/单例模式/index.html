@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>单例模式 | hanxw-blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。">
+  <meta name="description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。首先介绍一下单例模式的优点：    * 单例模式能够避免对象的重复创建，不仅可以减少每次创建对象的时间开销，还可以节约内存空间。    * 能够避免由于操作多个实例导致的逻辑错误。    * 如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个">
 <meta name="keywords" content="程序员,博客">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单例模式">
 <meta property="og:url" content="http://yoursite.com/2019/07/20/单例模式/index.html">
 <meta property="og:site_name" content="hanxw-blogs">
-<meta property="og:description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。">
+<meta property="og:description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。首先介绍一下单例模式的优点：    * 单例模式能够避免对象的重复创建，不仅可以减少每次创建对象的时间开销，还可以节约内存空间。    * 能够避免由于操作多个实例导致的逻辑错误。    * 如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-20T15:22:23.764Z">
+<meta property="og:updated_time" content="2019-07-20T16:05:40.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
-<meta name="twitter:description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。">
+<meta name="twitter:description" content="单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。首先介绍一下单例模式的优点：    * 单例模式能够避免对象的重复创建，不仅可以减少每次创建对象的时间开销，还可以节约内存空间。    * 能够避免由于操作多个实例导致的逻辑错误。    * 如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个">
   
     <link rel="alternative" href="/atom.xml" title="hanxw-blogs" type="application/atom+xml">
   
@@ -175,7 +175,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。<br><br></p>
+        <p>单例模式是Java中的设计模式之一，而让手写一个单例模式更是能在许多面试题中出现。因此我来记录一下整体的大致思路。<br><br><br>首先介绍一下单例模式的优点：<br>    * 单例模式能够避免对象的重复创建，不仅可以减少每次创建对象的时间开销，还可以节约内存空间。<br>    * 能够避免由于操作多个实例导致的逻辑错误。<br>    * 如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个         值得考虑的选择。<br>单例模式分为饿汉式单例和懒汉式单例。对于饿汉式单例，我们都知道一个对象的创建依赖于类中的构造方法，为了避免随意创建，第一步先私有化构造方法，第二步提供一个静态实例，第三步提供一个public修饰的static方法，用于返回该实例。<br>    public class Singleton{<br>        private static Singleton instance = new Singleton();<br>        private Single(){}<br>        public static Singleton getInstance(){<br>            return instance;<br>        }<br>    }</p>
+<p>饿汉单例模式虽然只创建一次实例，但是它也存在很明显的缺点，就是这个单例不管用没用到，都会在类加载的时候被创建，内存就会被浪费。这种实现方式适合单例占用内存比较小，在初始化时就会被用到的情况，但是，如果单例占用的内存比较大，或单例只是在某个场景下才会用到，使用饿汉式就不合适了，这时候就需要用到懒汉式进行延迟加载。<br>    public class Singleton{<br>        private static Singleton instance = null;<br>        private Singletong(){}<br>        public static Singleton getInstance(){<br>            if(null == instance){<br>                instance = new Singleton();<br>            }<br>            return instance;<br>        }<br>    }</p>
+<p>懒汉式好处是在需要的时候才会去创建，如果单例已经创建，再次调用获取接口将不会重新创建新的对象，而是直接返回之前创建的对象。<br>适用场景：如果某个单例适用的次数少，并且创建到哪里消耗的资源较多，那么就需要实现单例的按需创建，这个时候使用懒汉式就是一个不错的选择。<br>缺点：如果在不考虑线程安全问题的情况下，懒汉式的这种写法业务方；相反，如果存在线程安全的时候，代码执行到if语句的时候就会出现问题，可能导致创建多个实例，因此还需将代码进一步优化如下：<br>    public class Singeton{<br>        private static Singleton instance = null;<br>        private Singleton(){}<br>        public static synchrinized Singleton getInstance(){<br>            if(null == instance){<br>                instance = new Singleton();<br>            }<br>            return instance;<br>        }<br>    }</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>[Java单例模式的不同写法]{<a href="https://blog.csdn.net/fly910905/article/details/79286680}" target="_blank" rel="noopener">https://blog.csdn.net/fly910905/article/details/79286680}</a></p>
 
       
 
